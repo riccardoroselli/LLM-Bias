@@ -47,3 +47,11 @@ po/*~
 
 # RStudio Connect folder
 rsconnect/
+
+
+# ---
+
+# others
+
+# src-origin/
+# paper/28_BiasLLM.md
