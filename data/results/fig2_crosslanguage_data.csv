@@ -1,0 +1,37 @@
+"model","lang","category","log10_bf"
+"chatgpt","EN","Age",6.75562435695652
+"chatgpt","EN","Disability",5.79554926830092
+"chatgpt","EN","Gender",18.4202801352443
+"chatgpt","EN","Nationality",18.2605016876558
+"chatgpt","EN","Physical appearance",9.73277836763002
+"chatgpt","EN","Race",32.5332821723157
+"chatgpt","EN","Religion",19.720153820778
+"chatgpt","EN","Sexual orientation",8.44194942022522
+"chatgpt","EN","Socioeconomic",20.7555969118943
+"deepseek","EN","Age",1.13416121389502
+"deepseek","EN","Disability",3.43065001223281
+"deepseek","EN","Gender",0.542547325543853
+"deepseek","EN","Nationality",6.17790041100191
+"deepseek","EN","Physical appearance",-0.0674188834977491
+"deepseek","EN","Race",12.5512888664125
+"deepseek","EN","Religion",4.74243628634307
+"deepseek","EN","Sexual orientation",2.00936950246191
+"deepseek","EN","Socioeconomic",4.99876402578392
+"chatgpt","FR","Age",3.49030228711085
+"chatgpt","FR","Disability",6.71766249260629
+"chatgpt","FR","Gender",7.01645452634942
+"chatgpt","FR","Nationality",29.1815973996688
+"chatgpt","FR","Physical appearance",1.92282990703747
+"chatgpt","FR","Race",43.9288100836241
+"chatgpt","FR","Religion",21.9123807288472
+"chatgpt","FR","Sexual orientation",9.40128898933928
+"chatgpt","FR","Socioeconomic",19.7171314856741
+"deepseek","FR","Age",-0.796690569192577
+"deepseek","FR","Disability",1.09218649432679
+"deepseek","FR","Gender",1.04640544587645
+"deepseek","FR","Nationality",-0.912318569019031
+"deepseek","FR","Physical appearance",0.62715417642286
+"deepseek","FR","Race",-1.21706832115883
+"deepseek","FR","Religion",0.442114462368894
+"deepseek","FR","Sexual orientation",-0.882653850344339
+"deepseek","FR","Socioeconomic",-0.238400401210524

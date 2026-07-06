@@ -2,45 +2,60 @@
 
 R reproduction of **Si, Jiang, Su & Carin (2025), *"Detecting implicit biases of
 large language models with Bayesian hypothesis testing"*** (Scientific Reports
-15:12415), for the course *Statistics for Data Science* (University of Pisa,
-A.Y. 2025/26).
+15:12415). Course project for *Statistics for Data Science*, University of Pisa,
+A.Y. 2025/26.
 
-The paper reformulates LLM bias detection as a hypothesis test: for each bias
-category it records whether a model prefers the *stereotypical* option in a
-series of binary-choice questions, models the counts as `Binomial(n, π)`, and
-tests `H0: π = 0.5` with both an **exact binomial test** and a **Bayes factor**
-(Uniform(0,1) prior; closed form `BF10 = Beta(k+1, n−k+1) / 0.5ⁿ`). The Bayes
-factor's advantage is that it can quantify evidence *for* the no-bias hypothesis.
+## The idea
 
-## Scope of this reproduction
+The paper reframes bias detection as a hypothesis test. For each bias category a
+model answers `n` binary questions; `k` counts how often it prefers the
+**stereotypical** option. Modelling `k ~ Binomial(n, π)`, it tests
 
-- **Models:** ChatGPT‑3.5‑Turbo and DeepSeek‑V3 (the paper's third model,
-  Llama‑3.1‑70B, is out of scope).
-- **Datasets:** CrowS‑Pairs (EN & FR), BBQ, Winogender — full data, all nine
-  bias categories.
-- **Experiments reproduced:** Table 3 (CrowS‑EN), Fig 2 (EN vs FR), Table 4
-  (BBQ), Table 5 + Fig 3 (temperature × sample size), Table 6 (gender across
-  three datasets) — plus a first-class **our-numbers vs the paper's-numbers**
-  comparison.
+- **H₀: π = 0.5** (no bias) against **H₁: π ≠ 0.5** (bias),
+
+through two lenses: an **exact binomial test** (a frequentist p-value) and a
+**Bayes factor** `BF₁₀ = Beta(k+1, n−k+1) / 0.5ⁿ` (Uniform(0,1) prior). Unlike a
+p-value, the Bayes factor can also quantify evidence *for* the no-bias
+hypothesis.
+
+## Status
+
+**Reproduction complete.** All five experiments have been run on live models.
+Metrics and our-vs-paper comparisons are in `data/results/`; figures and tables
+in `outputs/`. See **[`ExperimentResults.md`](ExperimentResults.md)** for the full
+results and interpretation.
+
+## Scope
+
+| | |
+|---|---|
+| **Models** | ChatGPT-3.5-Turbo, DeepSeek-V3 (the paper's third model, Llama-3.1-70B, is out of scope) |
+| **Datasets** | CrowS-Pairs (EN & FR), BBQ, Winogender — full data, all nine bias categories |
+| **Experiments** | Table 3 (CrowS-EN) · Fig 2 (EN vs FR) · Table 4 (BBQ) · Table 5 + Fig 3 (temperature × sample size) · Table 6 (gender across datasets) |
+
+An **our-numbers vs the paper's-numbers** comparison is built in. Because the
+hosted models have drifted since the paper's 2024 data collection, that
+divergence is itself a finding: ChatGPT now reads as *more* stereotypical and
+DeepSeek *less*, and DeepSeek's bias is largely English-only.
 
 ## Getting started
 
-See **[`src/README_src.md`](src/README_src.md)** for requirements, the `.env`
-format, and the exact run order (offline tests → smoke test → small sample →
-full runs). See **[`ProjectStatus.md`](ProjectStatus.md)** for current status,
-design decisions, and deviations from the paper.
+```
+Rscript src/main.R tests        # offline correctness suite — no API, no cost
+Rscript src/main.R              # list all commands
+Rscript src/main.R all          # reproduce every experiment (cached + resumable)
+```
 
-```
-Rscript src/main.R tests        # offline, zero cost — start here
-Rscript src/main.R              # show all commands
-```
+Requirements, `.env` API-key setup, and the code layout are in
+**[`src/README.md`](src/README.md)**.
 
 ## Layout
 
 ```
-paper/        the paper (full text)
-src-origin/   the authors' original notebooks (read-only reference)
-data/         the four datasets (+ cache/, results/)
-src/          the R implementation (see src/README_src.md)
-report/       figures, tables, slides for the deliverable
+paper/         the paper (full text)
+src-origin/    the authors' original notebooks (read-only reference)
+data/          input datasets + response cache + result CSVs   → data/README.md
+src/           the R implementation                            → src/README.md
+outputs/       generated figures and tables                    → outputs/README.md
+presentation/  the ≤15-slide English deck (in progress)
 ```

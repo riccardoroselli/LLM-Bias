@@ -1,16 +1,15 @@
 #!/usr/bin/env Rscript
 # =============================================================================
-# run_tests.R — Offline test runner. Makes NO API calls and costs nothing.
+# run_tests.R — Harness for the offline correctness suite.
 #
-# Run it either way:
-#   * Terminal:  Rscript src/tests/run_tests.R
-#   * RStudio:   set working dir inside the project, then source this file.
-#
-# It sources all modules, then runs every testthat file in tests/testthat/.
-# Requires: testthat (all tests); jsonlite (the data-count tests only).
+# Loads the library, then runs every testthat file in tests/testthat/ (the
+# checks that pin our statistics, loaders and BBQ resolver to the paper's
+# published values). Makes no API calls and needs no keys, so it re-verifies the
+# delivered code for free. Requires: testthat (all tests); jsonlite (data-count
+# tests only).
 # =============================================================================
 
-# --- bootstrap: locate project root and load all modules ---
+# Locate the project root, then load every module so the tests can see them.
 .root <- normalizePath(getwd(), mustWork = FALSE)
 while (!file.exists(file.path(.root, "CLAUDE.md"))) {
   .p <- dirname(.root)

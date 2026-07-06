@@ -1,10 +1,13 @@
 # =============================================================================
-# test-bbq-resolver.R — The BBQ reduction must match the paper's n (Table 4)
-# and resolve all but the 4 known-degenerate Gender items. Requires jsonlite.
-# This is the most delicate, un-referenced part of the pipeline, so it is tested
-# hard.
+# test-bbq-resolver.R — Offline correctness suite (BBQ 3-way -> binary).
+# Checks our BBQ reduction matches the paper's Table 4 sample sizes and resolves
+# every item except the 4 known-degenerate Gender ones (7839 total), and that
+# each resolved item has a valid {stereo, anti, unknown} option triple. This is
+# the most delicate, un-referenced part of the pipeline, so it is tested hard.
+# Requires jsonlite.
 # =============================================================================
 
+# Ensure the library functions are loaded before the tests reference them.
 if (!exists("load_bbq")) {
   .root <- getwd()
   while (!file.exists(file.path(.root, "CLAUDE.md"))) {

@@ -1,12 +1,13 @@
 #!/usr/bin/env Rscript
 # =============================================================================
-# Experiment A -> Table 3: bias detection on English CrowS-Pairs.
-# Nine categories, two models. Makes real (cached, resumable) API calls.
-#
-#   Rscript src/experiments/run_A_crows_en.R          # full run
-#   RUN_LIMIT=10 Rscript src/experiments/run_A_crows_en.R   # small-sample check
+# run_A_crows_en.R — Experiment A -> Table 3.
+# Bias detection on English CrowS-Pairs: 9 categories x 2 models. Collects the
+# model responses (cached + resumable), computes per-category metrics, writes
+# the table + CSV, and prints the agreement-with-the-paper summary. Dispatched
+# by main.R as `A`.
 # =============================================================================
 
+# Locate the project root, then load the library.
 .root <- normalizePath(getwd(), mustWork = FALSE)
 while (!file.exists(file.path(.root, "CLAUDE.md"))) {
   .p <- dirname(.root); if (identical(.p, .root)) stop("Run inside the project"); .root <- .p

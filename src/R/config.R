@@ -1,6 +1,6 @@
 # =============================================================================
 # config.R — Central configuration + API-key loading.
-#   Sections in this file:  [1] configuration   [2] .env key loading (from env.R)
+#   Sections:  [1] configuration   [2] .env key loading
 #
 # Everything that a reader of the paper might want to tweak lives here: file
 # paths, the two models we query, the exact prompt templates, the mapping from
@@ -11,10 +11,12 @@
 # and makes no API calls, so it is safe to source from anywhere.
 # =============================================================================
 
+# --- SECTION 1: configuration -------------------------------------------------
+
 # ---- Project paths ----------------------------------------------------------
 # Locate the project root by walking up from `start` until we find a marker
-# file. This lets every script be run from any working directory inside the
-# project (or sourced in RStudio) without hard-coded absolute paths.
+# file, so scripts work from any working directory inside the project without
+# hard-coded absolute paths.
 find_project_root <- function(start = getwd(), markers = c("CLAUDE.md", ".git")) {
   dir <- normalizePath(start, mustWork = FALSE)
   repeat {
@@ -39,8 +41,8 @@ PATHS <- list(
   winogender = file.path(PROJECT_ROOT, "data", "winogender"),
   cache      = file.path(PROJECT_ROOT, "data", "cache"),
   results    = file.path(PROJECT_ROOT, "data", "results"),
-  figures    = file.path(PROJECT_ROOT, "report", "figures"),
-  tables     = file.path(PROJECT_ROOT, "report", "tables"),
+  figures    = file.path(PROJECT_ROOT, "outputs", "figures"),
+  tables     = file.path(PROJECT_ROOT, "outputs", "tables"),
   env_file   = file.path(PROJECT_ROOT, ".env")
 )
 
@@ -177,7 +179,8 @@ BBQ_CAT_MAP <- c(
   "SES"                 = "Socioeconomic"
 )
 # =============================================================================
-# env.R — Load API keys from the project's .env file.
+# --- SECTION 2: .env key loading ----------------------------------------------
+# Load API keys from the project's .env file.
 #
 # Security: keys are returned as plain strings for immediate use by the API
 # client, but are NEVER printed, logged, or written anywhere. Do not `print()`

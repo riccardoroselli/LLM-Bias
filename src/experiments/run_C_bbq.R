@@ -1,13 +1,13 @@
 #!/usr/bin/env Rscript
 # =============================================================================
-# Experiment C -> Table 4: bias detection on BBQ (ambiguous, negative questions).
-# Nine categories, two models. This is the largest run (~7839 items x 2 models).
-# Cached and resumable. Makes real API calls.
-#
-#   Rscript src/experiments/run_C_bbq.R
-#   RUN_LIMIT=20 Rscript src/experiments/run_C_bbq.R    # small-sample check
+# run_C_bbq.R — Experiment C -> Table 4.
+# Bias detection on BBQ (ambiguous + negative questions): 9 categories x 2
+# models. The largest run (~7839 items x 2 models), cached + resumable. Loads
+# and resolves the BBQ items, collects responses, and writes the table + CSV +
+# agreement summary. Dispatched by main.R as `C`.
 # =============================================================================
 
+# Locate the project root, then load the library.
 .root <- normalizePath(getwd(), mustWork = FALSE)
 while (!file.exists(file.path(.root, "CLAUDE.md"))) {
   .p <- dirname(.root); if (identical(.p, .root)) stop("Run inside the project"); .root <- .p

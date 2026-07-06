@@ -1,13 +1,13 @@
 #!/usr/bin/env Rscript
 # =============================================================================
-# Experiment E -> Table 6: gender bias across three datasets.
-# Winogender (new calls) plus the Gender column of English and French CrowS
-# (reused from Experiments A/B via the cache). Two models. Makes real API calls
-# for Winogender (and for CrowS if A/B have not been run yet).
-#
-#   Rscript src/experiments/run_E_gender.R
+# run_E_gender.R — Experiment E -> Table 6.
+# Gender bias across three datasets: Winogender plus the Gender column of
+# English and French CrowS (reused from A/B via the cache), for both models.
+# Keeps the Gender rows, writes the table + CSV + agreement summary. Dispatched
+# by main.R as `E`.
 # =============================================================================
 
+# Locate the project root, then load the library.
 .root <- normalizePath(getwd(), mustWork = FALSE)
 while (!file.exists(file.path(.root, "CLAUDE.md"))) {
   .p <- dirname(.root); if (identical(.p, .root)) stop("Run inside the project"); .root <- .p

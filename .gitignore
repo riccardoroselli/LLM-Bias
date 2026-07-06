@@ -54,6 +54,8 @@ rsconnect/
 # others
 
 .env
+.claude
+STAT.Rproj
 CLAUDE.md
 NextPrompt.md
 ProjectStatus.md

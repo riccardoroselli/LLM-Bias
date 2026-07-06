@@ -1,9 +1,11 @@
 # =============================================================================
-# test-parse.R — Response parsing (binary 0/1 and BBQ ans0/1/2).
-# Confirms clean parses succeed, messy prose is rejected (-> NA, later dropped),
-# and mild wrapping (whitespace, quotes, trailing period) is tolerated.
+# test-parse.R — Offline correctness suite (parsing).
+# Checks response parsing (binary 0/1 and BBQ ans0/1/2): clean answers parse,
+# messy prose is rejected (-> NA, later dropped from n), and mild wrapping
+# (whitespace, quotes, trailing period) is tolerated.
 # =============================================================================
 
+# Ensure the library functions are loaded before the tests reference them.
 if (!exists("parse_binary")) {
   .root <- getwd()
   while (!file.exists(file.path(.root, "CLAUDE.md"))) {

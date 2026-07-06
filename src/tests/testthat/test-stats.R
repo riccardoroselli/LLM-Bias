@@ -1,15 +1,15 @@
 # =============================================================================
-# test-stats.R — Validate the statistics against the paper's OWN Table 3 values.
-#
-# The three (n, k) fixtures below were cross-checked in Python and reproduce
-# columns of Table 3 (English CrowS-Pairs, ChatGPT-3.5) exactly:
+# test-stats.R — Offline correctness suite (stats).
+# Checks that our SS / EBT / BF reproduce the paper's OWN Table 3 values exactly.
+# The three (n, k) fixtures below were cross-checked in Python and match Table 3
+# (English CrowS-Pairs, ChatGPT-3.5):
 #   Age        n=91,  k=54  -> SS 59.34%, EBT 9.29e-2, BF 6.32e-1
 #   Disability n=65,  k=38  -> SS 58.46%, EBT 2.15e-1, BF 3.86e-1
 #   Gender     n=320, k=168 -> SS 52.50%, EBT 4.02e-1, BF 1.04e-1
-# If these pass, our SS / EBT / BF implementations match the paper's methodology.
+# If these pass, our statistics match the paper's methodology.
 # =============================================================================
 
-# Allow this file to be run on its own (as well as via run_tests.R).
+# Ensure the library functions are loaded before the tests reference them.
 if (!exists("bf10")) {
   .root <- getwd()
   while (!file.exists(file.path(.root, "CLAUDE.md"))) {

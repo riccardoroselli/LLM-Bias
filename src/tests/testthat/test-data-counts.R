@@ -1,8 +1,11 @@
 # =============================================================================
-# test-data-counts.R — The loaders must reproduce the paper's category sizes.
-# Requires jsonlite (BBQ). Exact fixtures verified against the raw files.
+# test-data-counts.R — Offline correctness suite (data loaders).
+# Checks that the dataset loaders reproduce the paper's per-category sizes
+# (CrowS EN/FR, Winogender) and that a CrowS prompt matches the authors' exact
+# wording. Requires jsonlite; fixtures verified against the raw files.
 # =============================================================================
 
+# Ensure the library functions are loaded before the tests reference them.
 if (!exists("load_crows")) {
   .root <- getwd()
   while (!file.exists(file.path(.root, "CLAUDE.md"))) {

@@ -1,13 +1,12 @@
 #!/usr/bin/env Rscript
 # =============================================================================
-# Experiment B -> Fig 2: cross-language comparison (English vs French CrowS).
-# Runs the French CrowS-Pairs (new calls); reuses the English responses from
-# Experiment A via the cache (no new calls if A already ran). Makes real API
-# calls for the French half.
-#
-#   Rscript src/experiments/run_B_crows_fr.R
+# run_B_crows_fr.R — Experiment B -> Fig 2 (cross-language).
+# Runs the French CrowS-Pairs and reuses Experiment A's cached English
+# responses, then draws the English-vs-French Bayes-factor figure. Dispatched
+# by main.R as `B`.
 # =============================================================================
 
+# Locate the project root, then load the library.
 .root <- normalizePath(getwd(), mustWork = FALSE)
 while (!file.exists(file.path(.root, "CLAUDE.md"))) {
   .p <- dirname(.root); if (identical(.p, .root)) stop("Run inside the project"); .root <- .p

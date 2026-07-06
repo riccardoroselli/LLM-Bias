@@ -4,7 +4,6 @@
 #
 # Usage:
 #   Rscript src/main.R tests     # offline tests only (NO API calls, zero cost)
-#   Rscript src/main.R smoke     # live API smoke test (a few cents)
 #   Rscript src/main.R A         # one experiment (A/B/C/D/E)
 #   Rscript src/main.R all       # all experiments A..E in order (the full run)
 #   Rscript src/main.R           # show this help
@@ -13,7 +12,7 @@
 #   RUN_LIMIT=10 Rscript src/main.R A
 #
 # Recommended order the first time:
-#   tests  ->  smoke  ->  RUN_LIMIT=10 main.R A  ->  all
+#   tests  ->  RUN_LIMIT=10 main.R A  ->  all
 # Everything is cached and resumable, so `all` is safe to interrupt and re-run.
 # =============================================================================
 
@@ -33,7 +32,6 @@ while (!file.exists(file.path(.root, "CLAUDE.md"))) {
     "\nLLM-Bias reproduction — single entry point\n",
     "\nUsage: Rscript src/main.R <command>\n\n",
     "  tests   Offline tests (stats, parsers, data counts). No API, no cost.\n",
-    "  smoke   Live API smoke test for both models (a few cents).\n",
     "  A       Experiment A  -> Table 3   (English CrowS-Pairs)\n",
     "  B       Experiment B  -> Fig 2     (English vs French CrowS)\n",
     "  C       Experiment C  -> Table 4   (BBQ; the largest run)\n",
@@ -41,7 +39,7 @@ while (!file.exists(file.path(.root, "CLAUDE.md"))) {
     "  E       Experiment E  -> Table 6   (gender across three datasets)\n",
     "  all     Experiments A..E in order (the full run)\n\n",
     "Dry run (first N items): RUN_LIMIT=10 Rscript src/main.R A\n",
-    "Recommended first-time order: tests -> smoke -> RUN_LIMIT=10 A -> all\n\n",
+    "Recommended first-time order: tests -> RUN_LIMIT=10 A -> all\n\n",
     sep = ""
   )
 }
@@ -52,7 +50,6 @@ cmd  <- if (length(args) >= 1L) tolower(args[[1]]) else "help"
 switch(cmd,
   help  = .usage(),
   tests = .run("tests/run_tests.R"),
-  smoke = .run("tests/smoke_api.R"),
   a     = .run("experiments/run_A_crows_en.R"),
   b     = .run("experiments/run_B_crows_fr.R"),
   c     = .run("experiments/run_C_bbq.R"),

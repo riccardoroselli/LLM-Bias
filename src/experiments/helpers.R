@@ -6,9 +6,9 @@
 # tables / figures / comparisons.
 # =============================================================================
 
-# Optional dry-run limit: `RUN_LIMIT=10 Rscript experiments/run_A_crows_en.R`
-# restricts every collection to the first 10 items (for the small-sample
-# end-to-end check before committing to full runs). Returns NULL if unset.
+# Optional dry-run limit read from the RUN_LIMIT environment variable: when set
+# (e.g. RUN_LIMIT=10) every collection is restricted to the first N items, for a
+# cheap small-sample end-to-end check. Returns NULL if unset or non-numeric.
 get_run_limit <- function() {
   v <- Sys.getenv("RUN_LIMIT", "")
   if (!nzchar(v)) return(NULL)

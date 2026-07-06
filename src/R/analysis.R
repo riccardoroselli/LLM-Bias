@@ -92,7 +92,7 @@ summarise_run <- function(df, kind = c("binary", "bbq"),
 #
 # Expected divergence: the paper's data was collected on earlier model snapshots
 # that have since changed, so our numbers will differ — quantifying that drift is
-# one of the analyses (see compare.R). SS values are stored as proportions
+# one of the analyses (SECTION 3 below). SS values are stored as proportions
 # (0-1), matching our own outputs.
 # =============================================================================
 

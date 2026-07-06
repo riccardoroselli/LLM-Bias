@@ -1,17 +1,14 @@
 #!/usr/bin/env Rscript
 # =============================================================================
-# Experiment D -> Table 5 + Fig 3: temperature x sample-size robustness.
-# BBQ Sexual-orientation subset (n=216), ChatGPT only, temperatures
-# {0, 0.5, 1, 1.5, 2}, nested-prefix subsamples {5,10,20,50,80,100}%.
-#
-# We query the full subset once per temperature, then compute metrics on nested
-# prefixes (no extra calls). Temperature 1.0 REUSES the responses collected by
-# Experiment C (same cache file `bbq__chatgpt__t1.0.jsonl`, same request keys),
-# so it usually costs nothing new. Makes real API calls for the other temps.
-#
-#   Rscript src/experiments/run_D_temperature.R
+# run_D_temperature.R — Experiment D -> Table 5 + Fig 3 (robustness study).
+# BBQ Sexual-orientation subset (n=216), ChatGPT only. Queries the subset once
+# per temperature {0, 0.5, 1, 1.5, 2}, then recomputes the statistics on nested
+# prefix subsamples {5,10,20,50,80,100}% (no extra calls) to show how the test
+# behaves vs sample size and temperature. Temperature 1.0 reuses Experiment C's
+# cached responses. Dispatched by main.R as `D`.
 # =============================================================================
 
+# Locate the project root, then load the library.
 .root <- normalizePath(getwd(), mustWork = FALSE)
 while (!file.exists(file.path(.root, "CLAUDE.md"))) {
   .p <- dirname(.root); if (identical(.p, .root)) stop("Run inside the project"); .root <- .p

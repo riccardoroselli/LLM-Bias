@@ -1,19 +1,10 @@
 # =============================================================================
-# load_all.R — Source every library module in dependency order.
+# load_all.R — Load the whole R library into the session.
 #
-# Usage (from any entry script; working directory anywhere inside the project):
-#
-#     .root <- getwd()
-#     while (!file.exists(file.path(.root, "CLAUDE.md"))) {
-#       .p <- dirname(.root); if (.p == .root) stop("Run inside the project"); .root <- .p
-#     }
-#     source(file.path(.root, "src", "load_all.R"))
-#
-# Library modules live in src/R/ (7 files). Experiment glue lives in
-# src/experiments/helpers.R. Modules use `package::function` for all external
-# packages, so *sourcing* them never requires a package to be installed — a
-# package is only needed when a function that uses it is actually called. This
-# keeps the offline tests dependency-light.
+# Sources every module in src/R/ (plus the experiment helpers) in dependency
+# order, so a single source() call makes all functions available. config.R is
+# loaded first because it defines the paths, models, prompts and category maps
+# that every other module relies on.
 # =============================================================================
 
 # Locate the project root from the current working directory, then src/.

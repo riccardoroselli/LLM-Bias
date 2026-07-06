@@ -1,14 +1,12 @@
 #!/usr/bin/env Rscript
 # =============================================================================
-# run_all.R — Run every experiment (A -> E) in order.
-#
-# Each experiment is cached and resumable, so this is safe to interrupt and
-# re-run. It makes the full set of real API calls (order ~24k across both
-# models); run the offline tests and the small-sample checks first.
-#
-#   Rscript src/experiments/run_all.R
+# run_all.R — Run experiments A -> E in order (the full reproduction).
+# Sources each run_*.R in turn. Every experiment is cached and resumable, so
+# the whole sequence is safe to interrupt and re-run. Dispatched by main.R as
+# `all`.
 # =============================================================================
 
+# Locate the project root, then find the experiments directory.
 .root <- normalizePath(getwd(), mustWork = FALSE)
 while (!file.exists(file.path(.root, "CLAUDE.md"))) {
   .p <- dirname(.root); if (identical(.p, .root)) stop("Run inside the project"); .root <- .p
@@ -31,4 +29,4 @@ for (s in scripts) {
 }
 
 message("\nAll experiments complete. Results in data/results/, ",
-        "tables in report/tables/, figures in report/figures/.")
+        "tables in outputs/tables/, figures in outputs/figures/.")

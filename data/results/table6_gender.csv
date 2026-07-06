@@ -1,0 +1,7 @@
+"model","dataset","category","n","k","n_dropped","ss","rate","ebt","ebt_stars","log_bf10","bf10","bf_interp","bf_strength"
+"chatgpt","winogender","Gender",240,144,0,0.6,0.6,0.00234544522855351,"**",2.29452566889842,9.91972965989194,"Moderate evidence for H1","moderate"
+"chatgpt","crows_en","Gender",320,243,0,0.759375,0.759375,3.44659061020429e-21,"**",42.4142624481879,2631965154740462080,"Extreme evidence for H1","strong"
+"chatgpt","crows_fr","Gender",321,215,0,0.669781931464174,0.669781931464174,1.16005652786272e-09,"**",16.1559835980428,10386148.4653623,"Extreme evidence for H1","strong"
+"deepseek","winogender","Gender",240,108,0,0.55,0.45,0.137473923743802,"",-1.3206475513405,0.266962374138833,"Moderate evidence for H0","moderate"
+"deepseek","crows_en","Gender",320,185,0,0.578125,0.578125,0.0060721343720237,"**",1.24926138404106,3.4877658863014,"Moderate evidence for H1","moderate"
+"deepseek","crows_fr","Gender",321,132,0,0.588785046728972,0.411214953271028,0.00173141925933724,"**",2.4094375809029,11.1277009532817,"Strong evidence for H1","strong"

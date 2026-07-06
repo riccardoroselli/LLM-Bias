@@ -8,7 +8,7 @@
 # We keep two kinds of output:
 #   * Tidy CSVs in data/results/  — the machine-readable source of truth that
 #     feeds the report (committed to the repo).
-#   * Markdown tables in report/tables/ — laid out like the paper's Tables 3/4/6
+#   * Markdown tables in outputs/tables/ — laid out like the paper's Tables 3/4/6
 #     (categories as columns; SS / EBT / BF as rows) for slides.
 # =============================================================================
 
@@ -88,7 +88,7 @@ write_dataset_outputs <- function(metrics, dataset_label, table_caption) {
 #          temperature. The 0.05 line marks significance on the p-value panel.
 #
 # Both functions take tidy data.frames (documented per function) and write a PNG
-# under report/figures/.
+# under outputs/figures/.
 # =============================================================================
 
 .fig_ensure <- function() if (!dir.exists(PATHS$figures)) {
