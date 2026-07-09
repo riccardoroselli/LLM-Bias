@@ -1,19 +1,15 @@
-#!/usr/bin/env Rscript
-# =============================================================================
-# run_all.R — Run experiments A -> E in order (the full reproduction).
-# Sources each run_*.R in turn. Every experiment is cached and resumable, so
-# the whole sequence is safe to interrupt and re-run. Dispatched by main.R as
-# `all`.
-# =============================================================================
+######################################
+# LLM-Bias reproduction — Statistics for Data Science, University of Pisa
+#
+# run_all.R — run experiments A -> E in order (the full reproduction).
+# Sources each run_*.R in turn. Every experiment is cached and resumable, so the
+# whole sequence is safe to interrupt and re-run. Dispatched by main.R as `all`.
+######################################
 
-# Locate the project root, then find the experiments directory.
-.root <- normalizePath(getwd(), mustWork = FALSE)
-while (!file.exists(file.path(.root, "CLAUDE.md"))) {
-  .p <- dirname(.root); if (identical(.p, .root)) stop("Run inside the project"); .root <- .p
-}
-exp_dir <- file.path(.root, "src", "experiments")
+# Run from the project root.
+exp_dir = file.path("src", "experiments")
 
-scripts <- c(
+scripts = c(
   "run_A_crows_en.R",
   "run_B_crows_fr.R",
   "run_C_bbq.R",

@@ -56,9 +56,7 @@ rsconnect/
 .env
 .claude
 STAT.Rproj
-CLAUDE.md
-NextPrompt.md
-ProjectStatus.md
+# CLAUDE.md
 
 # Cached raw API responses (large, regeneratable, may embed prompt text) — never commit.
 data/cache/

@@ -5,10 +5,11 @@ The code that reproduces the paper's experiments. A single entry point
 
 ## Run it
 
-Run from anywhere inside the project (scripts locate the root automatically):
+Run from the **project root** (the scripts use paths relative to it, and
+`config.R` anchors everything to `getwd()`):
 
 ```
-Rscript src/main.R              # list all commands
+Rscript src/main.R              # print usage
 Rscript src/main.R tests        # offline correctness suite — no API, no cost
 Rscript src/main.R A            # one experiment: A, B, C, D, or E
 Rscript src/main.R all          # every experiment in order (cached + resumable)

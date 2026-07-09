@@ -40,22 +40,37 @@ DeepSeek *less*, and DeepSeek's bias is largely English-only.
 
 ## Getting started
 
+Run from the project root:
+
 ```
 Rscript src/main.R tests        # offline correctness suite — no API, no cost
-Rscript src/main.R              # list all commands
+Rscript src/main.R              # print usage
 Rscript src/main.R all          # reproduce every experiment (cached + resumable)
 ```
 
 Requirements, `.env` API-key setup, and the code layout are in
 **[`src/README.md`](src/README.md)**.
 
+## Documentation
+
+Three source-of-truth documents cover the project with no overlap:
+
+- **[`ProjectContext.md`](ProjectContext.md)** — purpose, research question, and the
+  statistical theory (SS, exact binomial test, Bayes factor, interpretation scale).
+- **[`CodeDescription.md`](CodeDescription.md)** — structure of the R code in `src/`:
+  what each script does, how they connect, and how data flows to a result.
+- **[`ExperimentResults.md`](ExperimentResults.md)** — the experiments run and the
+  numbers obtained, with interpretation and an index of every output file.
+
+Folder-level `README.md` files document `src/`, `data/`, and `outputs/`.
+
 ## Layout
 
 ```
-paper/         the paper (full text)
-src-origin/    the authors' original notebooks (read-only reference)
-data/          input datasets + response cache + result CSVs   → data/README.md
-src/           the R implementation                            → src/README.md
-outputs/       generated figures and tables                    → outputs/README.md
-presentation/  the ≤15-slide English deck (in progress)
+paper/          the paper (full text + PDF)
+data/           input datasets + response cache + result CSVs   → data/README.md
+src/            the R implementation                            → src/README.md
+outputs/        generated figures and tables                    → outputs/README.md
+presentation/   the ≤15-slide English deck (LLMBias.pdf/.pptx + slide_outline.md)
+code-reference/ course lesson R scripts (the house-style reference)
 ```

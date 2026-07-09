@@ -157,8 +157,11 @@ These are deliberate and must be stated when reporting:
   the paper's published ones, isolating model drift.
 - **`n` = number of cleanly-parsed responses.** A response that is not an
   unambiguous choice (prose-wrapped, out of range, empty) is dropped, exactly as
-  the authors' notebook does. This is why, e.g., CrowS Race can load as 508 pairs
-  but appear as n=505 after 3 unparseable responses are dropped.
+  the authors' notebook does, so a category's final `n` can fall below its loaded
+  size. CrowS-Pairs Race, for instance, loads 508 pairs; the paper reports n=505
+  after dropping 3 unparseable responses (our own runs happened to parse all 508
+  cleanly — this trimming instead removed a handful of BBQ items; see
+  ExperimentResults.md).
 - **BBQ Gender n = 1414 vs the paper's 1418** — 4 degenerate items (two
   same-gender named options → no valid stereotypical option) are dropped.
   Negligible.

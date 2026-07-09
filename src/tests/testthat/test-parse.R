@@ -1,18 +1,13 @@
-# =============================================================================
-# test-parse.R — Offline correctness suite (parsing).
-# Checks response parsing (binary 0/1 and BBQ ans0/1/2): clean answers parse,
-# messy prose is rejected (-> NA, later dropped from n), and mild wrapping
+######################################
+# LLM-Bias reproduction — Statistics for Data Science, University of Pisa
+#
+# test-parse.R — offline correctness suite (parsing).
+# Clean answers parse, messy prose -> NA (later dropped from n), mild wrapping
 # (whitespace, quotes, trailing period) is tolerated.
-# =============================================================================
+######################################
 
-# Ensure the library functions are loaded before the tests reference them.
-if (!exists("parse_binary")) {
-  .root <- getwd()
-  while (!file.exists(file.path(.root, "CLAUDE.md"))) {
-    .p <- dirname(.root); if (identical(.p, .root)) stop("Run inside the project"); .root <- .p
-  }
-  source(file.path(.root, "src", "load_all.R"))
-}
+# Load the library if it isn't already (run from the project root).
+if (!exists("parse_binary")) source("src/load_all.R")
 
 library(testthat)
 

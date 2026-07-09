@@ -29,10 +29,15 @@ catalogued in **ExperimentResults.md**.
 - **Thin experiment drivers** in `src/experiments/` that call the library.
 - **An offline test suite** in `src/tests/` that pins the library to the paper's
   published values.
-- **Portability:** every script finds the project root by walking up to the
-  `CLAUDE.md` marker, so it runs from any working directory. External packages are
-  referenced as `package::function`, so *sourcing* the library needs nothing
-  installed — a package is required only when a function that uses it runs.
+- **Run location:** every script is run from the **project root**
+  (`Rscript src/main.R <cmd>`). There is no project-root auto-discovery: the
+  `source("src/…")` calls are relative to the working directory (the root), and
+  `config.R` captures the root once with `PROJECT_ROOT = getwd()` and builds
+  absolute `PATHS` from it (absolute so they survive `testthat` changing the
+  working directory during the test run). Packages are needed only at call time,
+  never at source time (`jsonlite / digest / httr2` via `package::function`;
+  `ggplot2 / testthat` via `library()` inside the figure/test code) — so sourcing
+  the library needs nothing installed.
 
 ### Layered dependencies
 ```
@@ -83,24 +88,27 @@ choices reduced to `(n, k)`.**
 ## 3. Entry point & loader
 
 ### `main.R`
-The single entry point. Locates the project root, reads the command-line argument,
-and `switch()`es on it: `tests` → runs the test harness; `A`–`E` → sources the
-matching experiment driver; `all` → sources `run_all.R`; no/unknown argument →
-prints usage. This is the **only** file that documents how to run the project.
+The single entry point. Reads the command-line argument and `switch()`es on it:
+`tests` → runs the test harness; `A`–`E` → sources the matching experiment driver;
+`all` → sources `run_all.R`; no/unknown argument → prints usage. Run from the
+project root. This is the **only** file that documents how to run the project.
 
 ### `load_all.R`
-Sources every library module **in dependency order** — `config.R` first (it
-defines the constants everything else uses), then `stats`, `parse`, `datasets`,
-`collect`, `analysis`, `report`, and finally `experiments/helpers.R`. Every entry
-script calls this once to make the whole library available.
+Sources the whole library **in dependency order** with eight plain `source()`
+calls — the seven `R/` modules (`config.R` first, since it defines the constants
+everything else uses, then `stats`, `parse`, `datasets`, `collect`, `analysis`,
+`report`) and finally `experiments/helpers.R`. Every entry script calls this once
+(from the project root) to make the whole library available.
 
 ---
 
 ## 4. The library (`src/R/`)
 
 ### `config.R` — configuration & API keys
-Pure definitions, no side effects (beyond locating the root). Provides:
-- **`PATHS`** — all project directories (data, cache, results, figures, tables, `.env`).
+Pure definitions, no side effects. Provides:
+- **`PATHS`** — the project directories (crows, bbq, winogender, cache, results,
+  figures, tables, `.env`), as absolute paths anchored to `PROJECT_ROOT = getwd()`
+  (the working directory when `config.R` is sourced, i.e. the project root).
 - **`MODELS`** — the two model specs (id, provider, model string, base URL, `.env`
   key name, display label). Both use an OpenAI-compatible endpoint.
 - **Prompt builders** — `build_prompt_binary(s1,s2)` and
@@ -138,7 +146,7 @@ Each loader returns a data.frame with at least `id`, `category`, and a ready-to-
   sentences, sets sentence #1 = stereotypical, builds the prompt.
   `crows_category_counts()` is a helper used by tests.
 - **BBQ:** `load_bbq(category)` reads the ambiguous+negative items and runs the
-  **3-way→binary resolver** (`.bbq_resolve` + `.bbq_*` helpers) that identifies the
+  **3-way→binary resolver** (`bbq_resolve` + `bbq_*` helpers) that identifies the
   stereotyped / anti / unknown option indices by normalising and matching group
   labels; unresolvable items are dropped. `bbq_ambig_neg_count()` reports the
   pre-resolution count (used by tests). This resolver is our own design.

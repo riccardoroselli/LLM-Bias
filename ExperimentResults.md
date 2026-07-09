@@ -68,7 +68,7 @@ our implementation — so live-model drift is a finding, not an error (§9).
 `data/results/compare_table3_crows_en.csv`,
 `outputs/tables/table3_crows_en_{chatgpt,deepseek}.md`.
 **Data:** `data/cache/crows_en_{chatgpt,deepseek}__t1.0.jsonl`
-(1666 items × 2 models; 4 dropped for ChatGPT, 0 for DeepSeek).
+(1666 items × 2 models; both models parsed every English item cleanly — 0 dropped).
 
 ### Design
 CrowS-Pairs presents **pairs of near-identical sentences** that differ only in the
@@ -88,8 +88,8 @@ endorses the stereotypical sentence over its counter-stereotypical twin.
 | Disability | 65 | 0.831 | 6.0e-08 ** | 5.80 |
 | Gender | 320 | 0.759 | 3.4e-21 ** | 18.42 |
 | Nationality | 216 | 0.810 | 6.6e-21 ** | 18.26 |
-| Physical appearance | 71 | 0.887 | 1.0e-11 ** | 9.49 |
-| Race | 505 | 0.772 | 5.3e-36 ** | 33.02 |
+| Physical appearance | 72 | 0.889 | 5.8e-12 ** | 9.73 |
+| Race | 508 | 0.770 | 1.6e-35 ** | 32.53 |
 | Religion | 111 | 0.928 | 3.7e-22 ** | 19.72 |
 | Sexual orientation | 93 | 0.828 | 9.6e-11 ** | 8.44 |
 | Socioeconomic | 190 | 0.847 | 2.2e-23 ** | 20.76 |
@@ -109,8 +109,8 @@ Physical appearance, p=0.076, BF₁₀=0.86 → mild evidence for *no* bias):
 | Sexual orientation | 93 | 0.688 | 3.7e-04 ** | 2.01 |
 | Socioeconomic | 190 | 0.689 | 1.9e-07 ** | 4.99 |
 
-*(Note: ChatGPT's Race n=505 — exactly the paper's value — because 3 items were
-dropped as unparseable; DeepSeek's Race n=508 because it dropped none.)*
+*(Note: both models answered all 508 Race pairs cleanly here, so both show n=508;
+the paper reports n=505 because 3 responses were unparseable in its run.)*
 
 ### Interpretation vs. the paper
 Overall agreement with paper Table 3 (computed from `compare_table3_crows_en.csv`):
@@ -332,19 +332,16 @@ illustrating that the verdict can be benchmark-dependent for a borderline model.
 | `outputs/figures/fig3_temperature.png` | Exp D temperature/sample-size chart. |
 
 ### Provenance / reproducibility notes
-- Parse rates were excellent: total drops were 4 (CrowS-EN), 1 (CrowS-FR), 17 (BBQ),
+- Parse rates were excellent: total drops were 0 (CrowS-EN), 1 (CrowS-FR), 17 (BBQ),
   0 (Winogender) for ChatGPT and 0 across the board for DeepSeek. All counts are in
   the `n_dropped` columns of the metrics CSVs.
-- Counts match the paper where expected: CrowS Race 505 (ChatGPT), Winogender 240,
-  BBQ per-category totals within 0–9 of paper. BBQ Gender 1414 vs paper 1418 (4
-  degenerate items dropped, documented).
-- **Table 3 vs Fig 2 `n` (ChatGPT English Race / Phys.App.):** Table 3 (Experiment A,
-  `metrics_table3_crows_en.csv`) reports Race n=505 and Phys.App. n=71 — 3 and 1
-  unparseable responses were dropped. Fig 2's English series
-  (`fig2_crosslanguage_data.csv`) re-queried those items during Experiment B, where
-  they parsed cleanly, so it uses n=508 / n=72. This is why ChatGPT's English
-  Race/Phys.App. log₁₀BF differs slightly between §4 (33.02 / 9.49, n=505/71) and
-  Fig 2 (32.53 / 9.73, n=508/72). Both are correct for their respective `n`.
+- Counts line up with the datasets and the paper: CrowS Race loads 508 (both models
+  parsed all 508 cleanly; the paper's n=505 reflects 3 unparseable drops in its
+  run), Winogender 240, BBQ per-category totals within 0–9 of paper. BBQ Gender 1414
+  vs paper 1418 (4 degenerate items dropped, documented).
+- **Table 3 and Fig 2 agree on ChatGPT's English `n`:** both use Race n=508 and
+  Phys.App. n=72 (all items parsed cleanly), so ChatGPT's English Race/Phys.App.
+  log₁₀BF matches across §4 and Fig 2 (32.53 / 9.73).
 - Every metric is a pure function of `(n, k)` via `src/R/stats.R`, whose logic is
   pinned to the paper's own Table 3 fixtures in the offline test suite — so the
   pipeline is verified independent of any API spend.

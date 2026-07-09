@@ -1,26 +1,25 @@
-#!/usr/bin/env Rscript
-# =============================================================================
+######################################
+# LLM-Bias reproduction — Statistics for Data Science, University of Pisa
+#
 # run_C_bbq.R — Experiment C -> Table 4.
-# Bias detection on BBQ (ambiguous + negative questions): 9 categories x 2
-# models. The largest run (~7839 items x 2 models), cached + resumable. Loads
-# and resolves the BBQ items, collects responses, and writes the table + CSV +
-# agreement summary. Dispatched by main.R as `C`.
-# =============================================================================
+# BBQ (ambiguous + negative): 9 categories x 2 models, the largest run (~7839 items
+# x 2). Load + resolve, collect, write table + CSV + agreement. main.R `C`.
+######################################
 
-# Locate the project root, then load the library.
-.root <- normalizePath(getwd(), mustWork = FALSE)
-while (!file.exists(file.path(.root, "CLAUDE.md"))) {
-  .p <- dirname(.root); if (identical(.p, .root)) stop("Run inside the project"); .root <- .p
-}
-source(file.path(.root, "src", "load_all.R"))
+# Run from the project root.
+source("src/load_all.R")
 
 message("=== Experiment C: BBQ (Table 4) ===")
 message("Loading + resolving BBQ items for all nine categories ...")
-items <- do.call(rbind, lapply(CATEGORIES, load_bbq))
+parts = list()
+for (cat in CATEGORIES) {
+  parts[[length(parts) + 1L]] = load_bbq(cat)
+}
+items = do.call(rbind, parts)
 message(sprintf("  %d resolved items across %d categories.",
                 nrow(items), length(unique(items$category))))
 
-metrics <- run_models_metrics(items, dataset_name = "bbq", kind = "bbq")
+metrics = run_models_metrics(items, dataset_name = "bbq", kind = "bbq")
 
 write_dataset_outputs(metrics, "table4_bbq", "Table 4: BBQ")
 print_metrics(metrics)

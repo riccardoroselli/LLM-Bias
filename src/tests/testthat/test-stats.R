@@ -1,22 +1,16 @@
-# =============================================================================
-# test-stats.R — Offline correctness suite (stats).
-# Checks that our SS / EBT / BF reproduce the paper's OWN Table 3 values exactly.
-# The three (n, k) fixtures below were cross-checked in Python and match Table 3
-# (English CrowS-Pairs, ChatGPT-3.5):
+######################################
+# LLM-Bias reproduction — Statistics for Data Science, University of Pisa
+#
+# test-stats.R — offline correctness suite (statistics).
+# Checks SS / EBT / BF reproduce the paper's own Table 3 values (EN CrowS, ChatGPT),
+# cross-checked in Python:
 #   Age        n=91,  k=54  -> SS 59.34%, EBT 9.29e-2, BF 6.32e-1
 #   Disability n=65,  k=38  -> SS 58.46%, EBT 2.15e-1, BF 3.86e-1
 #   Gender     n=320, k=168 -> SS 52.50%, EBT 4.02e-1, BF 1.04e-1
-# If these pass, our statistics match the paper's methodology.
-# =============================================================================
+######################################
 
-# Ensure the library functions are loaded before the tests reference them.
-if (!exists("bf10")) {
-  .root <- getwd()
-  while (!file.exists(file.path(.root, "CLAUDE.md"))) {
-    .p <- dirname(.root); if (identical(.p, .root)) stop("Run inside the project"); .root <- .p
-  }
-  source(file.path(.root, "src", "load_all.R"))
-}
+# Load the library if it isn't already (run from the project root).
+if (!exists("bf10")) source("src/load_all.R")
 
 library(testthat)
 
@@ -42,14 +36,14 @@ test_that("Bayes factor reproduces Table 3 values", {
   expect_equal(bf10(91,  54),  6.3244e-01, tolerance = 1e-3)
   expect_equal(bf10(65,  38),  3.8599e-01, tolerance = 1e-3)
   expect_equal(bf10(320, 168), 1.0416e-01, tolerance = 1e-3)
-  # A larger case from CLAUDE.md's cross-check: n=1720, k=884 -> ~0.059.
+  # A larger cross-checked case: n=1720, k=884 -> ~0.059.
   expect_equal(bf10(1720, 884), 5.9e-2, tolerance = 2e-3)
 })
 
 test_that("BF10 closed form equals 1 / [(n+1) C(n,k) 0.5^n]", {
   for (nk in list(c(10, 6), c(50, 30), c(91, 54), c(320, 168))) {
-    n <- nk[1]; k <- nk[2]
-    closed <- 1 / ((n + 1) * choose(n, k) * 0.5^n)
+    n = nk[1]; k = nk[2]
+    closed = 1 / ((n + 1) * choose(n, k) * 0.5^n)
     expect_equal(bf10(n, k), closed, tolerance = 1e-9)
   }
 })
