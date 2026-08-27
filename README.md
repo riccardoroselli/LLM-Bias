@@ -26,14 +26,43 @@ reject it.
 ## Layout
 
 ```
-paper/          the original paper (PDF)
-data/           input datasets + response cache + result CSVs   → data/README.md
-src/            the R implementation                            → src/README.md
-  R/            the 7-module library (stats, parsing, datasets, collection, analysis, report)
-  experiments/  one script per experiment (run_A..E.R), run_all.R, shared helpers
-  tests/        offline testthat suite — stats, parsing, dataset counts, BBQ resolver
-outputs/        generated figures and tables                    → outputs/README.md
-presentation/   the slide deck (LLM Bias Deck.pdf)
+paper/                 the original paper (PDF)                      → paper/28.BiasLLM.pdf
+
+data/                  input datasets + response cache + result CSVs → data/README.md
+  crows_pairs/         CrowS-Pairs EN & FR — stereotypical vs anti-stereotypical sentence pairs
+  bbq/                 BBQ — ambiguous-context, negative-polarity multiple-choice bias questions
+  winogender/          Winogender — coreference sentences (male / female / neutral pronoun)
+  cache/               append-only cache of raw model responses, one .jsonl per dataset×model×temp
+  results/             per-experiment metrics + our-vs-paper compare_*.csv
+
+src/                   the R implementation                          → src/README.md
+  main.R               single entry point: Rscript src/main.R <tests|A|B|C|D|E|all>
+  load_all.R           sources the whole library
+  R/                   the 7-module library
+    config.R           paths, models, prompts, categories, .env keys
+    stats.R            SS / exact binomial test / Bayes factor (BF10)
+    parse.R            0/1 and ans0/1/2 response parsing (-> NA if unparseable)
+    datasets.R         CrowS + BBQ (+ group resolver) + Winogender loaders
+    collect.R          API client + append-only cache + run_dataset
+    analysis.R         aggregate -> metrics + paper reference values + comparison
+    report.R           CSV/markdown table builders + Fig 2 & Fig 3
+  experiments/         one script per experiment
+    run_A_crows_en.R     Table 3 (CrowS-EN)
+    run_B_crows_fr.R     Fig 2 (EN vs FR)
+    run_C_bbq.R          Table 4 (BBQ)
+    run_D_temperature.R  Table 5 + Fig 3 (temperature × sample-size grid)
+    run_E_gender.R       Table 6 (gender across datasets)
+    run_all.R            runs A–E in sequence
+    helpers.R            shared experiment helpers
+  tests/               offline testthat suite (no API calls, no cost)
+    run_tests.R          test runner
+    testthat/            test-stats.R, test-parse.R, test-data-counts.R, test-bbq-resolver.R
+
+outputs/               generated figures and tables                  → outputs/README.md
+  tables/              markdown tables (Table 3–5 per model)
+  figures/             fig2_crosslanguage.png, fig3_temperature.png
+
+presentation/          the slide deck: LLM Bias Deck.pdf
 ```
 
 ## Results
@@ -46,7 +75,7 @@ Both models still show measurable stereotyping, but the details shifted since
 the paper's 2024 snapshot, and they shifted in opposite directions. ChatGPT is
 now more stereotypical, while DeepSeek is now less stereotypical.
 
-<center><img src="outputs/figures/fig2_crosslanguage.png" width="60%" alt="Cross-language bias comparison (EN vs FR)"></center>
+<img src="outputs/figures/fig2_crosslanguage.png" width="60%" alt="Cross-language bias comparison (EN vs FR)">
 
 *Log₁₀ Bayes factor per bias category, English vs French: ChatGPT's stereotyping holds in both languages, DeepSeek's mostly vanishes in French.*
 
@@ -71,11 +100,3 @@ Rscript src/main.R all          # reproduce every experiment (cached + resumable
 
 Requirements, `.env` API-key setup, and the code layout are in
 **[`src/README.md`](src/README.md)**.
-
-## Documentation
-
-Two more folder-level `README.md` files round things out:
-[`data/README.md`](data/README.md) covers dataset provenance, the cache
-format, and result files; [`outputs/README.md`](outputs/README.md) covers the
-generated tables and figures. See [`src/README.md`](src/README.md) above for
-how to run the code.
