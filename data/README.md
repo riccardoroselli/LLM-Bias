@@ -38,4 +38,4 @@ tables.
   `metrics_*` (our per-category SS / EBT / BF), `compare_*` (our-vs-paper agreement),
   plus `fig2_crosslanguage_data.csv`, `table5_temperature.csv`, and
   `table6_gender.csv`. The human-readable Markdown tables and PNG figures built from
-  these live in `outputs/`. See **ExperimentResults.md §10** for the full file index.
+  these live in `outputs/` (see its **[`README.md`](../outputs/README.md)**).

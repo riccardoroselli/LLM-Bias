@@ -5,8 +5,8 @@ Human-readable figures and tables produced by the experiments
 `data/results/`; the slide deck built from these lives in `presentation/`.
 
 The metrics shown (**SS** stereotype score, **EBT** exact binomial p-value, **BF₁₀**
-Bayes factor) are defined in **`ProjectContext.md` §4** and interpreted in
-**`ExperimentResults.md`**.
+Bayes factor) are explained in the **[project README](../README.md#the-idea)**;
+the formulas themselves are in **[`src/R/stats.R`](../src/R/stats.R)**.
 
 ## `figures/`
 - `fig2_crosslanguage.png` — Bayes factor per category, English vs French
