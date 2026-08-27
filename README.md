@@ -15,37 +15,13 @@ exact binomial test (a p-value), and a Bayes factor, BF₁₀ = Beta(k+1, n−k+
 that it can quantify evidence for the no-bias hypothesis too, not just fail to
 reject it.
 
-## What we found
-
-All five experiments ran against live models, ChatGPT-3.5-Turbo and
-DeepSeek-V3, across CrowS-Pairs (English and French), BBQ, and Winogender, all
-nine of the paper's bias categories, no subsampling.
-
-Both models still show measurable stereotyping, but the details shifted since
-the paper's 2024 snapshot, and they shifted in opposite directions. ChatGPT is
-now more stereotypical: on English CrowS-Pairs it shows significant bias in
-all nine categories, several of which the paper had scored as no evidence of
-bias at all. DeepSeek is now less stereotypical. What's left of its bias
-barely survives translation, either: the same sentences in French push most
-of its significant categories back toward chance.
-
-Question format matters too. CrowS-Pairs asks the model to pick the more
-likely sentence, and both models lean toward the stereotype. BBQ offers a
-third "unknown" option, and both models mostly take it instead of the
-stereotyped answer. A temperature × sample-size sweep (Experiment D) shows the
-Bayes factor behaving the way the theory predicts: stable across sampling
-temperature, with its evidence strengthening steadily as the sample grows.
-
 ## Scope
 
 | | |
 |---|---|
-| **Models** | ChatGPT-3.5-Turbo, DeepSeek-V3 (the paper's third model, Llama-3.1-70B, is out of scope) |
+| **Models** | ChatGPT-3.5-Turbo, DeepSeek-V3 |
 | **Datasets** | CrowS-Pairs (EN & FR), BBQ, Winogender, full data, all nine bias categories |
 | **Experiments** | Table 3 (CrowS-EN) · Fig 2 (EN vs FR) · Table 4 (BBQ) · Table 5 + Fig 3 (temperature × sample size) · Table 6 (gender across datasets) |
-
-A side-by-side comparison against the paper's published numbers is built into
-every experiment; that's where the findings above come from.
 
 ## Layout
 
@@ -53,9 +29,35 @@ every experiment; that's where the findings above come from.
 paper/          the original paper (PDF)
 data/           input datasets + response cache + result CSVs   → data/README.md
 src/            the R implementation                            → src/README.md
+  R/            the 7-module library (stats, parsing, datasets, collection, analysis, report)
+  experiments/  one script per experiment (run_A..E.R), run_all.R, shared helpers
+  tests/        offline testthat suite — stats, parsing, dataset counts, BBQ resolver
 outputs/        generated figures and tables                    → outputs/README.md
 presentation/   the slide deck (LLM Bias Deck.pdf)
 ```
+
+## Results
+
+All five experiments ran against live models, ChatGPT-3.5-Turbo and
+DeepSeek-V3, across CrowS-Pairs (English and French), BBQ, and Winogender, all
+nine of the paper's bias categories, no subsampling.
+
+Both models still show measurable stereotyping, but the details shifted since
+the paper's 2024 snapshot, and they shifted in opposite directions. ChatGPT is
+now more stereotypical, while DeepSeek is now less stereotypical.
+
+<center><img src="outputs/figures/fig2_crosslanguage.png" width="60%" alt="Cross-language bias comparison (EN vs FR)"></center>
+
+*Log₁₀ Bayes factor per bias category, English vs French: ChatGPT's stereotyping holds in both languages, DeepSeek's mostly vanishes in French.*
+
+Concretely: on English CrowS-Pairs, ChatGPT is now significantly stereotypical in
+all 9/9 categories (SS 0.76–0.93, e.g. Religion SS=0.93, log₁₀BF=19.7 — up from the
+paper's SS ≈0.53–0.72), while DeepSeek is significant in 8/9 (SS 0.58–0.77, down
+from the paper's 0.86–0.96) and its bias mostly evaporates in French — e.g. Race
+log₁₀BF drops from +12.6 in English to −1.2 in French, flipping the evidence to
+favor no bias. On gender specifically (Table 6), ChatGPT is significantly biased
+across all three benchmarks (rate 0.60–0.76), while DeepSeek shows no significant
+gender bias at all on Winogender (rate 0.45, log₁₀BF −0.57, evidence for H₀).
 
 ## Getting started
 
