@@ -59,7 +59,4 @@ STAT.Rproj
 # CLAUDE.md
 
 # Cached raw API responses (large, regeneratable, may embed prompt text) — never commit.
-# data/cache/
-
-# src-origin/
-# paper/28_BiasLLM.md
+data/cache/
